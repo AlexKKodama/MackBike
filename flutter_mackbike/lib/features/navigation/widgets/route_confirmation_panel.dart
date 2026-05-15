@@ -20,7 +20,7 @@ class RouteConfirmationPanel extends StatelessWidget {
       left: 0,
       right: 0,
       child: Container(
-        height: 200, // Adjust height as needed
+        height: 200,
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -43,15 +43,14 @@ class RouteConfirmationPanel extends StatelessWidget {
             Column(
               children: [
                 Text(
-                  'Route to Destination',
+                  'Rota para o destino',
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  'Distance: ${(route.distance / 1000).toStringAsFixed(2)} km',
+                  'Distancia: ${(route.distance / 1000).toStringAsFixed(2)} km',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                // TODO: Add duration if available in RouteModel
               ],
             ),
             Row(
@@ -72,7 +71,7 @@ class RouteConfirmationPanel extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
                     child: const Text(
-                      'Start',
+                      'Começar',
                       style: TextStyle(fontSize: 18, color: Colors.white),
                     ),
                   ),
@@ -88,7 +87,7 @@ class RouteConfirmationPanel extends StatelessWidget {
                       side: const BorderSide(color: Colors.red),
                     ),
                     child: const Text(
-                      'Cancel',
+                      'Cancelar',
                       style: TextStyle(fontSize: 18, color: Colors.red),
                     ),
                   ),

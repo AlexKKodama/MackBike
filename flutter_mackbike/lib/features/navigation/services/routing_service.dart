@@ -8,7 +8,6 @@ class RoutingService {
 
   RoutingService({http.Client? client}) : _client = client ?? http.Client();
 
-  // For Android emulators, 10.0.2.2 is used to access the host machine's localhost.
   static const String _routingApiBaseUrl = 'http://10.0.2.2:8081/route';
 
   Future<RouteModel> getRoute(LatLng origin, LatLng destination) async {

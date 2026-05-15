@@ -18,7 +18,7 @@ class GeocodingService {
       uri,
       headers: {
         'User-Agent':
-            'MackBikeApp/1.0 (alex.kazuo.kodama@gmail.com)', // Replace with your actual app name and email
+            'MackBikeApp/1.0 (10417942@mackenzista.com.br)',
       },
     );
 

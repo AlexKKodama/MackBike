@@ -32,21 +32,21 @@ class NavigationViewModel extends ChangeNotifier {
   LatLng? _destination;
   MapController? _mapController;
   RouteModel? _currentRoute;
-  Position? _currentGpsPosition; // New property for live GPS location
-  StreamSubscription<Position>? _positionStreamSubscription; // New property for location stream
-  int _currentInstructionIndex = 0; // New property for instruction index
+  Position? _currentGpsPosition;
+  StreamSubscription<Position>? _positionStreamSubscription;
+  int _currentInstructionIndex = 0;
 
   List<SearchResultModel> _originSearchResults = [];
   List<SearchResultModel> _destinationSearchResults = [];
 
   NavigationState get navigationState => _navigationState;
-  int get currentInstructionIndex => _currentInstructionIndex; // New getter
+  int get currentInstructionIndex => _currentInstructionIndex;
   LatLng? get currentLocation => _currentLocation;
   LatLng? get origin => _origin;
   LatLng? get destination => _destination;
   MapController? get mapController => _mapController;
   RouteModel? get currentRoute => _currentRoute;
-  Position? get currentGpsPosition => _currentGpsPosition; // New getter
+  Position? get currentGpsPosition => _currentGpsPosition;
   List<SearchResultModel> get originSearchResults => _originSearchResults;
   List<SearchResultModel> get destinationSearchResults =>
       _destinationSearchResults;
@@ -155,7 +155,6 @@ class NavigationViewModel extends ChangeNotifier {
       if (requestResult == LocationPermission.denied ||
           requestResult == LocationPermission.deniedForever) {
         debugPrint('Location permissions denied.');
-        // TODO: Handle permission denied gracefully (e.g., show a dialog)
         _navigationState = NavigationState.idle;
         notifyListeners();
         return;
@@ -168,7 +167,6 @@ class NavigationViewModel extends ChangeNotifier {
       },
       onError: (e) {
         debugPrint('Error in position stream: $e');
-        // TODO: Handle stream errors
       },
       cancelOnError: true,
     );

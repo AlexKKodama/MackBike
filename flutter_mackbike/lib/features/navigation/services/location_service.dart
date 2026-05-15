@@ -20,8 +20,6 @@ class LocationService {
         ),
       );
     } catch (e) {
-      // Handle permission denied or other errors
-      // Consider using a logging framework in a real app
       return null;
     }
   }

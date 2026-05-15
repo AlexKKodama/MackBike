@@ -13,7 +13,6 @@ class RouteModel {
   });
 
   factory RouteModel.fromJson(Map<String, dynamic> json) {
-    // The API returns a list of paths, we'll take the first one.
     final path = json['paths'][0];
     final pointsData = path['points']['coordinates'] as List;
     final instructionsData = path['instructions'] as List;

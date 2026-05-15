@@ -89,7 +89,7 @@ class _TurnByTurnScreenState extends State<TurnByTurnScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
               child: const Text(
-                'Cancel Navigation',
+                'Cancelar Navegação',
                 style: TextStyle(fontSize: 18, color: Colors.white),
               ),
             ),

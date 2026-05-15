@@ -20,7 +20,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
   @override
   void initState() {
     super.initState();
-    // Set the map controller in the view model once it's available
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<NavigationViewModel>(
         context,
@@ -43,7 +42,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 viewModel.currentLocation ??
                 const LatLng(-23.5489, -46.6388), // Default to São Paulo
           ),
-          const SearchOverlay(), // Add SearchOverlay here
+          const SearchOverlay(),
           Positioned(
             bottom: 16.0,
             right: 16.0,

@@ -40,12 +40,12 @@ class InstructionsWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Distance: ${(route.distance / 1000).toStringAsFixed(2)} km',
+              'Distancia: ${(route.distance / 1000).toStringAsFixed(2)} km',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             const Text(
-              'Instructions:',
+              'Instruções:',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
             Expanded(

@@ -82,7 +82,7 @@ class _SearchOverlayState extends State<SearchOverlay> {
               TextField(
                 controller: _originController,
                 decoration: InputDecoration(
-                  labelText: 'Origin',
+                  labelText: 'Origem',
                   prefixIcon: const Icon(Icons.my_location),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
@@ -94,7 +94,7 @@ class _SearchOverlayState extends State<SearchOverlay> {
               TextField(
                 controller: _destinationController,
                 decoration: InputDecoration(
-                  labelText: 'Destination',
+                  labelText: 'Destino',
                   prefixIcon: const Icon(Icons.location_on),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
