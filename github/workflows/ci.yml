@@ -9,7 +9,7 @@ on:
       -main
 
 jobs:
-  build:
+  backend:
     runs-on: ubuntu-latest
 
     steps:
@@ -32,4 +32,29 @@ jobs:
 
       - name: Maven build
         run: mvn clean install --no-transfer-progress
+      
+      - name: Run tests
+        run: mvn test
+
+  frontend:
+    runs-in: ubuntu-latest
+    needs: backend
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run Flutter tests
+        run: flutter test
+
+      - name: Build Flutter web
+        run: flutter build web
+
    
