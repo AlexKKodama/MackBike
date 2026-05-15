@@ -9,7 +9,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		int opt, v, w;
+		int opt, v, w, s;
 		float p;
 		TGrafo grafo = null;
 
@@ -24,6 +24,9 @@ public class Main {
 			System.out.println("7) Mostrar conteúdo do arquivo");
 			System.out.println("8) Mostrar grafo");
 			System.out.println("9) Informações do grafo");
+			System.out.println("10) Djikstra");
+			System.out.println("11) Bellman-Ford");
+			System.out.println("12) SPFA");
 			System.out.println("0) Encerrar aplicação");
 
 			while (!scanner.hasNextInt()) {
@@ -75,7 +78,7 @@ public class Main {
 					System.out.println("Aresta removida!");
 					wait(scanner);
 					break;
-				case 7:// ok
+				case 7:
 					grafo.showFile("grafo.txt");
 					wait(scanner);
 					break;
@@ -85,6 +88,24 @@ public class Main {
 					break;
 				case 9:
 					grafo.info();
+					wait(scanner);
+					break;
+				case 10:
+					System.out.println("Qual o vértice de inicio?");
+					s = scanner.nextInt();
+					grafo.dijkstra(s);
+					wait(scanner);
+					break;
+				case 11:
+					System.out.println("Qual o vértice de inicio?");
+					s = scanner.nextInt();
+					grafo.bellmanFord(s);
+					wait(scanner);
+					break;
+				case 12:
+					System.out.println("Qual o vértice de inicio?");
+					s = scanner.nextInt();
+					grafo.spfa(s);
 					wait(scanner);
 					break;
 				case 0:

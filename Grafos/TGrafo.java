@@ -10,6 +10,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -451,4 +457,183 @@ public class TGrafo {
 			atual = atual.prox;
 		}
 	}
+
+	// Classe auxiliar para usar na PriorityQueue
+	private class NoFila implements Comparable<NoFila> {
+        int id;
+        float custo; // No Dijkstra é a dist real, no A* é dist + heuristica (f)
+
+        public NoFila(int id, float custo) {
+            this.id = id;
+            this.custo = custo;
+        }
+
+        @Override
+        public int compareTo(NoFila outro) {
+            return Float.compare(this.custo, outro.custo);
+        }
+    }
+
+    // Algoritmo de Djikstra
+    public void dijkstra(int s) {
+        float[] dist = new float[n];     // Distância mínima conhecida
+        int[] pred = new int[n];         // Predecessor para reconstruir o caminho
+        boolean[] visitado = new boolean[n];
+
+        // Inicialização
+        Arrays.fill(dist, Float.MAX_VALUE);
+        Arrays.fill(pred, -1);
+        dist[s] = 0;
+
+        PriorityQueue<NoFila> pq = new PriorityQueue<>();
+        pq.add(new NoFila(s, 0));
+
+        while (!pq.isEmpty()) {
+            NoFila atual = pq.poll();
+            int u = atual.id;
+
+            // Se já fechamos este vértice com um caminho menor, ignorar
+            if (visitado[u]) continue;
+            visitado[u] = true;
+
+            // Iterar sobre a lista de adjacência (TNo)
+            TNo aresta = adj[u];
+            while (aresta != null) {
+                int v = aresta.w;
+                float peso = aresta.p;
+
+                // Relaxamento da aresta
+                if (dist[u] != Float.MAX_VALUE && dist[u] + peso < dist[v]) {
+                    dist[v] = dist[u] + peso;
+                    pred[v] = u;
+                    pq.add(new NoFila(v, dist[v]));
+                }
+                aresta = aresta.prox;
+            }
+        }
+
+        imprimirResultados("Dijkstra", s, dist, pred);
+    }
+
+    // Algoritmo de Bellman-Ford
+    public boolean bellmanFord(int s) {
+        float[] dist = new float[n];
+        int[] pred = new int[n];
+
+        // Inicialização
+        Arrays.fill(dist, Float.MAX_VALUE);
+        Arrays.fill(pred, -1);
+        dist[s] = 0;
+
+        // Relaxamento repetido: O(|V| * |E|)
+        // Repetimos n-1 vezes
+        for (int i = 1; i < n; i++) {
+            boolean trocou = false; // Otimização: para se não houver mudanças
+
+            // Iterar por todos os vértices
+            for (int u = 0; u < n; u++) {
+                if (dist[u] == Float.MAX_VALUE) continue;
+
+                // Iterar por todas as arestas de u
+                TNo aresta = adj[u];
+                while (aresta != null) {
+                    int v = aresta.w;
+                    float peso = aresta.p;
+
+                    if (dist[u] + peso < dist[v]) {
+                        dist[v] = dist[u] + peso;
+                        pred[v] = u;
+                        trocou = true;
+                    }
+                    aresta = aresta.prox;
+                }
+            }
+            if (!trocou) break;
+        }
+
+        // Verificação de Ciclo Negativo
+        for (int u = 0; u < n; u++) {
+            if (dist[u] == Float.MAX_VALUE) continue;
+            TNo aresta = adj[u];
+            while (aresta != null) {
+                int v = aresta.w;
+                float peso = aresta.p;
+                if (dist[u] + peso < dist[v]) {
+                    System.out.println("Erro: O grafo contém um ciclo negativo!");
+                    return false;
+                }
+                aresta = aresta.prox;
+            }
+        }
+
+        imprimirResultados("Bellman-Ford", s, dist, pred);
+        return true;
+    }
+
+    public void spfa(int s) {
+        float[] dist = new float[n];
+        int[] pred = new int[n];
+
+        // Array para saber rapidamente se um nó já está na fila
+        // Isso evita duplicidade e processamento desnecessário
+        boolean[] inQueue = new boolean[n];
+
+        // Inicialização
+        Arrays.fill(dist, Float.MAX_VALUE);
+        Arrays.fill(pred, -1);
+        dist[s] = 0;
+
+        Queue<Integer> fila = new LinkedList<>();
+        fila.add(s);
+        inQueue[s] = true;
+
+        while (!fila.isEmpty()) {
+            int u = fila.poll();
+            inQueue[u] = false; // Removeu da fila, marca como false
+
+            // Percorre a Lista de Adjacência (TNo)
+            TNo aresta = adj[u];
+            while (aresta != null) {
+                int v = aresta.w;
+                float peso = aresta.p;
+
+                // Relaxamento
+                if (dist[u] + peso < dist[v]) {
+                    dist[v] = dist[u] + peso;
+                    pred[v] = u;
+
+                    if (!inQueue[v]) {
+                        fila.add(v);
+                        inQueue[v] = true;
+                    }
+                }
+                aresta = aresta.prox;
+            }
+        }
+
+        imprimirResultados("SPFA", s, dist, pred);
+    }
+
+    // Métodos auxiliares
+    private void imprimirResultados(String algo, int s, float[] dist, int[] pred) {
+        System.out.println("--- Resultados do " + algo + " (Origem: " + s + ") ---");
+        for (int i = 0; i < n; i++) {
+            System.out.print("Vértice " + i + ": ");
+            if (dist[i] == Float.MAX_VALUE) System.out.println("Infinito");
+            else System.out.println("Dist: " + dist[i] + " | Pred: " + pred[i]);
+        }
+    }
+
+    private void imprimirCaminho(String algo, int s, int t, int[] pred, float custoTotal) {
+        System.out.println("--- Caminho encontrado (" + algo + ") ---");
+        System.out.println("Custo Total: " + custoTotal);
+        ArrayList<Integer> caminho = new ArrayList<>();
+        int curr = t;
+        while (curr != -1) {
+            caminho.add(curr);
+            curr = pred[curr];
+        }
+        Collections.reverse(caminho);
+        System.out.println("Caminho: " + caminho);
+    }
 }
